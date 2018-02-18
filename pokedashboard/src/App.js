@@ -2,43 +2,54 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import "whatwg-fetch";
-import PokeList from "./components/PokeList";
-import { Col, Row, Grid } from "react-bootstrap/lib/";
-import ReactPaginate from "react-paginate";
+import PokemonIndexList from "./components/PokemonIndexList";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       pokemon: [],
-      activePage: 0,
-      limit: 30,
+      activePage: 1,
+      limit: 50,
       offset: 0,
-      totalPages: 0
+      totalPages: 0,
+      count: 0,
+      load: false
     };
-
-    this.loadPokemon = this.loadPokemon.bind(this);
-    this.handlePaginationSelect = this.handlePaginationSelect.bind(this);
   }
 
-  loadPokemon(url) {
+  loadPokemon = url => {
     fetch(url)
       .then(response => {
         return response.json();
       })
       .then(json => {
-        console.log(json);
         let pages = Math.round(json.count / this.state.limit);
         this.setState({
           totalPages: pages,
           pokemon: json.results,
-          count: json.count
+          count: json.count,
+          load: true
         });
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
+
+  handleLimitChange = event => {
+    this.setState(
+      {
+        limit: +event.target.innerHTML || this.state.count,
+        activePage: 1
+      },
+      () => {
+        this.loadPokemon(
+          `${this.props.baseUrl}pokemon/?limit=${this.state.limit}&offset=0`
+        );
+      }
+    );
+  };
 
   componentWillMount() {
     let offset = this.state.limit;
@@ -47,35 +58,42 @@ class App extends Component {
     );
   }
 
-  handlePaginationSelect(selectedPage) {
-    console.log(selectedPage);
+  handlePaginationSelect = selectedPage => {
     let offset = this.state.limit + selectedPage.selected;
-    console.log(
-      `${this.props.baseUrl}?limit=${this.state.limit}&offset=${offset}`
-    );
     this.loadPokemon(
       `${this.props.baseUrl}pokemon/?limit=${this.state.limit}&offset=${offset}`
     );
-  }
+    this.setState({ activePage: selectedPage });
+  };
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Zaid's Poke Dashboard</h1>
         </header>
+        {this.state.load ? null : "Loading.."}
+        <PokemonIndexList
+          display={this.state.load}
+          selectedValue={this.state.limit}
+          allValue={this.state.count}
+          onOptionSelected={this.handleLimitChange}
+          listOfPokemon={this.state.pokemon}
+          totalPages={this.state.totalPages}
+          handlePaginationSelect={this.handlePaginationSelect}
+        />
+        {/* <SelectItemsPerPageButtons
+          options={[10, 50, 100, 200]}
+          selectedValue={this.state.limit}
+          allValue={this.state.count}
+          onOptionSelected={this.handleLimitChange}
+        />
         <PokeList listOfPokemon={this.state.pokemon} />
-        <Col sm={12} md={10}>
-          <div id="react-paginate">
-            <ReactPaginate
-              pageCount={this.state.totalPages}
-              pageRangeDispalyed={10}
-              marginPagesDisplayed={10}
-              onPageChange={this.handlePaginationSelect}
-            />
-          </div>
-        </Col>
+        <Pagination
+          totalPages={this.state.totalPages}
+          handlePaginationSelect={this.handlePaginationSelect}
+        /> */}
       </div>
     );
   }
