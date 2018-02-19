@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import "whatwg-fetch";
 import PokemonIndexList from "./components/PokemonIndexList";
+import PokemonModal from "./components/PokemonModal";
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class App extends Component {
       offset: 0,
       totalPages: 0,
       count: 0,
-      load: false
+      load: false,
+      showModal: false,
+      selectedPokemon: null
     };
   }
 
@@ -66,7 +69,33 @@ class App extends Component {
     this.setState({ activePage: selectedPage });
   };
 
+  openModal = pokemon => {
+    if (pokemon.url !== undefined) {
+      fetch(`${pokemon.url}`)
+        .then(response => {
+          return response.json();
+        })
+        .then(json => {
+          console.log(json);
+          this.setState({
+            selectedPokemon: json,
+            showModal: true
+          });
+        })
+        .catch(ex => {
+          console.log("parsing failed", ex);
+        });
+    }
+  };
+
+  closeModal = () => {
+    this.setState({
+      showModal: false
+    });
+  };
+
   render() {
+    const { showModal } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -82,18 +111,13 @@ class App extends Component {
           listOfPokemon={this.state.pokemon}
           totalPages={this.state.totalPages}
           handlePaginationSelect={this.handlePaginationSelect}
+          openModal={this.openModal}
         />
-        {/* <SelectItemsPerPageButtons
-          options={[10, 50, 100, 200]}
-          selectedValue={this.state.limit}
-          allValue={this.state.count}
-          onOptionSelected={this.handleLimitChange}
+        <PokemonModal
+          pokemon={this.state.selectedPokemon}
+          closeModal={this.closeModal}
+          showModal={showModal}
         />
-        <PokeList listOfPokemon={this.state.pokemon} />
-        <Pagination
-          totalPages={this.state.totalPages}
-          handlePaginationSelect={this.handlePaginationSelect}
-        /> */}
       </div>
     );
   }

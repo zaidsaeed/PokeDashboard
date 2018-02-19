@@ -1,11 +1,16 @@
 import React from "react";
 import { ListGroup, ListGroupItem, Col, Grid, Row } from "react-bootstrap/lib/";
 
-const PokeList = ({ listOfPokemon }) => {
+const PokeList = ({ listOfPokemon, openModal }) => {
   let split = Math.floor(listOfPokemon.length / 3);
   let pokemon = listOfPokemon.map((creature, index) => {
     return (
-      <ListGroupItem key={index} className="PokeList-item">
+      <ListGroupItem
+        key={index}
+        className="PokeList-item"
+        onClick={openModal.bind(null, creature)}
+        pokemon={creature}
+      >
         {creature.name}
       </ListGroupItem>
     );

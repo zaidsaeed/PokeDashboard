@@ -11,7 +11,8 @@ const PokemonIndexList = ({
   onOptionSelected,
   listOfPokemon,
   totalPages,
-  handlePaginationSelect
+  handlePaginationSelect,
+  openModal
 }) => {
   const style = { display: "none" };
   if (display) {
@@ -25,7 +26,7 @@ const PokemonIndexList = ({
         allValue={allValue}
         onOptionSelected={onOptionSelected}
       />
-      <PokeList listOfPokemon={listOfPokemon} />
+      <PokeList listOfPokemon={listOfPokemon} openModal={openModal} />
       <Pagination
         totalPages={totalPages}
         handlePaginationSelect={handlePaginationSelect}
