@@ -1,7 +1,7 @@
 <!-- prettier-ignore -->
-PokeDashboard is web app that:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;created using npm-create-react-app
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;created with multiple reacted components
+PokeDashboard is web app that: </br>
+    * created using npm-create-react-app </br>
+    created with multiple reacted components
     pulls data from the open-source api poke-api
     uses react modals to display the attributes of the clicked on pokemon
     uses react-bootstrap to organize the on-screen organization of its components
