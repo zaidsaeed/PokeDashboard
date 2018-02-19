@@ -22,12 +22,14 @@
   font-size: large;
 }
 
-.modal-container {
-  position: relative;
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.modal-container .modal,
-.modal-container .modal-backdrop {
-  position: absolute;
+
+.Aligner-item {
+  max-width: 50%;
 }
 
 .PokeList-item {
@@ -47,6 +49,19 @@
 
 #react-paginate .break a {
   cursor: default;
+}
+
+#pokemon-modal-title {
+  text-transform: capitalize;
+}
+modal-container {
+  display: inline-block;
+}
+.modal {
+  max-height: 50%;
+}
+#exit-modal-button {
+  float: right;
 }
 
 @keyframes App-logo-spin {

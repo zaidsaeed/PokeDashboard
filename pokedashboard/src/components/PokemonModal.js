@@ -12,15 +12,25 @@ const PokemonModal = ({ showModal, closeModal, pokemon }) => {
         onHide={closeModal}
         aria-labelledby="contained-modal-title"
         ariaHideApp={false}
+        style={{ maxHeight: "50%" }}
       >
-        <h1> {pokemon !== null ? pokemon.name : "Loading..."} </h1>
+        <h1 id="pokemon-modal-title">
+          {" "}
+          {pokemon !== null ? pokemon.name : "Loading..."}{" "}
+        </h1>
         <hr />
         {pokemon !== null ? (
           <PokemonInfo pokemon={pokemon} />
         ) : (
           "Pokemon does not exist"
         )}
-        <Button bsStyle="primary" bsSize="large" onClick={closeModal}>
+        <hr />
+        <Button
+          id="exit-modal-button"
+          bsStyle="primary"
+          bsSize="large"
+          onClick={closeModal}
+        >
           {" "}
           Exit Modal{" "}
         </Button>
