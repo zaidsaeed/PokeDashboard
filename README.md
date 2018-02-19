@@ -1,5 +1,5 @@
 "# PokeDashboard"
 
 Home Page View:
-<img src='./front'/>
-<img src='./modal'/>
+<img src='./front.png'/>
+<img src='./modal.png'/>
